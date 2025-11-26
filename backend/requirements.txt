@@ -4,3 +4,4 @@ pydantic
 openai
 python-multipart
 openpyxl
+starlette
