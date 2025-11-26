@@ -4,6 +4,11 @@ import Page2Milestones from "./Page2Milestones";
 import Page3Tasks from "./Page3Tasks";
 import ChatBox from "./ChatBox";
 
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8001"
+    : "https://workplanmvp-backend.onrender.com";
+
 const ACCESS_PASSWORD = "Workplan2025!";
 
 const DEFAULT_WORKSTREAMS = [
@@ -517,7 +522,7 @@ function App() {
     try {
       setIsLoading(true); // ⬅️ start loading
 
-      const res = await fetch("http://localhost:8001/ai/chat", {
+      const res = await fetch(`${API_BASE}/ai/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -594,7 +599,7 @@ function App() {
         id: Date.now() + 2,
         role: "assistant",
         text:
-          "Sorry, I couldn’t reach the backend. Make sure the Python server is running on http://localhost:8001.",
+          "Sorry, I couldn’t reach the backend. Please try again in a moment.",
       };
       setChatMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -604,7 +609,7 @@ function App() {
 
   const handleExportExcel = async () => {
     try {
-      const response = await fetch("http://localhost:8001/export/excel", {
+      const response = await fetch(`${API_BASE}/export/excel`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ workstreams, milestones, tasks }),
